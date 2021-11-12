@@ -1,11 +1,36 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'categories.dart';
-import 'my_account.dart';
-import 'lessons.dart';
+import 'app_layout.dart';
+import 'package:http/http.dart' as http;
+import 'dart:developer' as developer;
+import 'dart:async';
+import 'dart:convert';
+
+var auth = true;
+const port = '10.0.2.2:8000/API';
 
 void main() {
-  runApp(const EduCap());
+  if (auth) {
+    runApp(const EduCap());
+  } else {}
+}
+
+Future<String> getResponse() async {
+  final response = await http.get(Uri.parse('http://$port/auth/test'));
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return convertResponse(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+var variable;
+
+convertResponse(String json) {
+  developer.log(json);
 }
 
 const eduCapBlue = Color(0xff5c8ec8);
@@ -21,80 +46,6 @@ class EduCap extends StatelessWidget {
       ),
       title: "EduCap",
       home: const Layout(),
-    );
-  }
-}
-
-class Layout extends StatefulWidget {
-  const Layout({Key? key}) : super(key: key);
-
-  @override
-  _LayoutState createState() => _LayoutState();
-}
-
-class _LayoutState extends State<Layout> {
-  int _selectedIndex = 0;
-  static final List<Widget> _widgetOptions = <Widget>[
-    (Lessons()),
-    (MyAccount()),
-    (HomePage()),
-    (Categories()),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Educap'),
-        backgroundColor: eduCapBlue,
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.white,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.info_outline,
-              color: Colors.white,
-            ),
-            label: 'Lecciones',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.school,
-              color: Colors.white,
-            ),
-            label: 'Categorias',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: 'Mi cuenta',
-          ),
-        ],
-        backgroundColor: eduCapBlue,
-        onTap: _onItemTapped,
-        currentIndex: _selectedIndex,
-      ),
     );
   }
 }
