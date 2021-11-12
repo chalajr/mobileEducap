@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
+import 'categories.dart';
+import 'my_account.dart';
+import 'lessons.dart';
 
 void main() {
   runApp(const Layout());
@@ -6,14 +10,9 @@ void main() {
 
 const eduCapBlue = Color(0xff5c8ec8);
 
-class Layout extends StatefulWidget {
+class Layout extends StatelessWidget {
   const Layout({Key? key}) : super(key: key);
 
-  @override
-  _State createState() => _State();
-}
-
-class _State extends State<Layout> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,12 +24,7 @@ class _State extends State<Layout> {
             title: const Text('Educap'),
             backgroundColor: eduCapBlue,
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[],
-            ),
-          ),
+          body: HomePage(),
           bottomNavigationBar: navBar()),
     );
   }
@@ -54,7 +48,7 @@ Widget navBar() {
           Icons.info_outline,
           color: Colors.white,
         ),
-        label: 'Sobre Nosotros',
+        label: 'Lecciones',
       ),
       BottomNavigationBarItem(
         icon: Icon(
@@ -74,23 +68,3 @@ Widget navBar() {
     backgroundColor: eduCapBlue,
   );
 }
-
-
-
-
-// class SobreNosotros  extends StatefulWidget {
-//   SobreNosotros ({ Key? key }) : super(key: key);
-
-//   @override
-//   SobreNosotrosState createState() => SobreNosotrosState();
-
-// }
-// class SobreNosotrosState extends State<SobreNosotros> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return (
-
-      
-//     );
-//   }
-// }
