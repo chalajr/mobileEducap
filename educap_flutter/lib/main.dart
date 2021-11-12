@@ -35,10 +35,10 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    (Lessons()),
-    (MyAccount()),
     (HomePage()),
+    (Lessons()),
     (Categories()),
+    (MyAccount()),
   ];
 
   void _onItemTapped(int index) {
