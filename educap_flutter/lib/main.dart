@@ -5,13 +5,13 @@ import 'my_account.dart';
 import 'lessons.dart';
 
 void main() {
-  runApp(const Layout());
+  runApp(const EduCap());
 }
 
 const eduCapBlue = Color(0xff5c8ec8);
 
-class Layout extends StatelessWidget {
-  const Layout({Key? key}) : super(key: key);
+class EduCap extends StatelessWidget {
+  const EduCap({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,52 +19,82 @@ class Layout extends StatelessWidget {
       theme: ThemeData(
         backgroundColor: eduCapBlue,
       ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Educap'),
-            backgroundColor: eduCapBlue,
-          ),
-          body: HomePage(),
-          bottomNavigationBar: navBar()),
+      title: "EduCap",
+      home: const Layout(),
     );
   }
 }
 
-Widget navBar() {
-  return BottomNavigationBar(
-    type: BottomNavigationBarType.fixed,
-    selectedItemColor: Colors.white,
-    unselectedItemColor: Colors.white,
-    items: const <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-        icon: Icon(
-          Icons.home,
-          color: Colors.white,
-        ),
-        label: 'Home',
+class Layout extends StatefulWidget {
+  const Layout({Key? key}) : super(key: key);
+
+  @override
+  _LayoutState createState() => _LayoutState();
+}
+
+class _LayoutState extends State<Layout> {
+  int _selectedIndex = 0;
+  static final List<Widget> _widgetOptions = <Widget>[
+    (Lessons()),
+    (MyAccount()),
+    (HomePage()),
+    (Categories()),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Educap'),
+        backgroundColor: eduCapBlue,
       ),
-      BottomNavigationBarItem(
-        icon: Icon(
-          Icons.info_outline,
-          color: Colors.white,
-        ),
-        label: 'Lecciones',
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      BottomNavigationBarItem(
-        icon: Icon(
-          Icons.school,
-          color: Colors.white,
-        ),
-        label: 'Categorias',
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+            label: 'Lecciones',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.school,
+              color: Colors.white,
+            ),
+            label: 'Categorias',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            label: 'Mi cuenta',
+          ),
+        ],
+        backgroundColor: eduCapBlue,
+        onTap: _onItemTapped,
+        currentIndex: _selectedIndex,
       ),
-      BottomNavigationBarItem(
-        icon: Icon(
-          Icons.person,
-          color: Colors.white,
-        ),
-        label: 'Mi cuenta',
-      ),
-    ],
-    backgroundColor: eduCapBlue,
-  );
+    );
+  }
 }
