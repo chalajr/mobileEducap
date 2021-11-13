@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_layout.dart';
+import 'login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as developer;
 import 'dart:async';
@@ -45,7 +46,7 @@ class EduCap extends StatelessWidget {
         backgroundColor: eduCapBlue,
       ),
       title: "EduCap",
-      home: const Layout(),
+      home: const Login(),
     );
   }
 }
