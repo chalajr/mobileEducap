@@ -46,7 +46,7 @@ class EduCap extends StatelessWidget {
         backgroundColor: eduCapBlue,
       ),
       title: "EduCap",
-      home: const MyCustomForm(),
+      home: const RegisterForm(),
     );
   }
 }
