@@ -3,23 +3,23 @@ import 'package:email_validator/email_validator.dart';
 import 'dart:developer' as developer;
 
 // Define a custom Form widget.
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({Key? key}) : super(key: key);
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
+  RegisterFormState createState() {
+    return RegisterFormState();
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+class RegisterFormState extends State<RegisterForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
   // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
+  // not a GlobalKey<RegisterFormState>.
   final _formKey = GlobalKey<FormState>();
 
   //Variables donde se guardara la informacion de el input del usuario despues de la validacion tienen que ser del tipo TextEditingController
@@ -31,6 +31,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    developer.log('hola');
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +60,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor ingresa tu nombre(s)';
                         }
+
                         return null;
                       },
                       //Decoracion para que se vea cool el input
@@ -178,7 +180,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             'Nombres: $nombre, apellidos: $apellido, edad: $edad, correo: $correo, contrasena: $contrasena');
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Registrar cuenta'),
                   ),
                 ],
               ),
