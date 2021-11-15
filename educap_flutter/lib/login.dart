@@ -53,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
             TextFormField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Correo Electronico',
+                labelText: 'Correo Electrónico',
               ),
             ),
             TextFormField(
