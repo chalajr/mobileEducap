@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:developer' as developer;
 import 'dart:async';
 import 'dart:convert';
+import 'register_form.dart';
 
 var auth = true;
 const port = '10.0.2.2:8000/API';
@@ -45,7 +46,7 @@ class EduCap extends StatelessWidget {
         backgroundColor: eduCapBlue,
       ),
       title: "EduCap",
-      home: const Layout(),
+      home: MyCustomForm(),
     );
   }
 }
