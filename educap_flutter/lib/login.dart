@@ -95,9 +95,11 @@ class _LoginFormState extends State<LoginForm> {
                                   MaterialStateProperty.all<Color>(Colors.red),
                             ),
                             onPressed: () {
-                              setState(() {
-                                const RegisterForm();
-                              });
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterForm()));
                             },
                             child: const Text('¿No tienes cuenta? Registrate'),
                           ),

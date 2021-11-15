@@ -29,8 +29,6 @@ Future<String> getResponse() async {
   }
 }
 
-var variable;
-
 convertResponse(String json) {
   developer.log(json);
 }
