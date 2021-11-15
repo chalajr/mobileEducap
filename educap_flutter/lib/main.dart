@@ -47,7 +47,7 @@ class EduCap extends StatelessWidget {
         backgroundColor: eduCapBlue,
       ),
       title: "EduCap",
-      home: const Login(),
+      home: const LoginForm(),
     );
   }
 }
