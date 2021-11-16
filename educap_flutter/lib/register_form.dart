@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 import 'dart:developer' as developer;
 
 // Define a custom Form widget.
@@ -28,7 +29,8 @@ class RegisterFormState extends State<RegisterForm> {
   final age = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
-
+  final password2 = TextEditingController();
+  final passVal = String;
   @override
   Widget build(BuildContext context) {
     developer.log('hola');
@@ -128,6 +130,7 @@ class RegisterFormState extends State<RegisterForm> {
                           return 'Por favor ingresa un correo valido';
                         }
                         //Si le regresas null quiere decir que la validacion paso
+
                         return null;
                       },
                       decoration: const InputDecoration(
@@ -147,15 +150,40 @@ class RegisterFormState extends State<RegisterForm> {
                       enableSuggestions: false,
                       autocorrect: false,
                       keyboardType: TextInputType.visiblePassword,
+                      validator: Validators.compose([
+                        Validators.required(
+                            'Por favor introduzca una contraseña'),
+                        Validators.patternString(
+                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                            'Contraseña Inválida')
+                      ]),
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Ingresa tu contraseña',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextFormField(
+                      controller: password2,
+                      //Estos parametros son para esconder la contrasena y de mas
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      keyboardType: TextInputType.visiblePassword,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa una contraseña';
+                          return 'Por favor ingresa tu edad';
+                        } else if (password2.text != password.text) {
+                          return 'Las contraseñas deben de coincidir';
                         }
                         return null;
                       },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Ingresa tu contraseña',
+                        labelText: 'Ingresa tu contraseña de nuevo',
                       ),
                     ),
                   ),
@@ -176,8 +204,9 @@ class RegisterFormState extends State<RegisterForm> {
                         var edad = age.text;
                         var correo = email.text;
                         var contrasena = password.text;
+                        var contrasena2 = password2.text;
                         developer.log(
-                            'Nombres: $nombre, apellidos: $apellido, edad: $edad, correo: $correo, contrasena: $contrasena');
+                            'Nombres: $nombre, apellidos: $apellido, edad: $edad, correo: $correo, contrasena: $contrasena, contrasena: $contrasena2');
                       }
                     },
                     child: const Text('Registrar cuenta'),

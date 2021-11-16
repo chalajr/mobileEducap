@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 import 'dart:developer' as developer;
 import 'register_form.dart';
 
