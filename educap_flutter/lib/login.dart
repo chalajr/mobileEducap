@@ -97,10 +97,11 @@ class _LoginFormState extends State<LoginForm> {
                             ),
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterForm()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterForm(),
+                                ),
+                              );
                             },
                             child: const Text('¿No tienes cuenta? Registrate'),
                           ),
@@ -112,7 +113,8 @@ class _LoginFormState extends State<LoginForm> {
                                 // you'd often call a server or save the information in a database.
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                      content: Text('Procesando información')),
+                                    content: Text('Procesando información'),
+                                  ),
                                 );
                                 //Aqui va lo que es la comunicacion con la api, en este caso solo imprimi los inputs del usuario en la consola
 

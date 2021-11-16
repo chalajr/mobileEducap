@@ -1,7 +1,13 @@
+import 'package:educap_flutter/login.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'dart:developer' as developer;
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+
+const PORT = 'http://10.0.2.2:8000/API';
 
 // Define a custom Form widget.
 class RegisterForm extends StatefulWidget {
@@ -33,7 +39,6 @@ class RegisterFormState extends State<RegisterForm> {
   final passVal = String;
   @override
   Widget build(BuildContext context) {
-    developer.log('hola');
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(
@@ -153,9 +158,9 @@ class RegisterFormState extends State<RegisterForm> {
                       validator: Validators.compose([
                         Validators.required(
                             'Por favor introduzca una contraseña'),
-                        Validators.patternString(
-                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                            'Contraseña Inválida')
+                        // Validators.patternString(
+                        //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                        //     'Contraseña Inválida')
                       ]),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -199,14 +204,14 @@ class RegisterFormState extends State<RegisterForm> {
                               content: Text('Procesando información')),
                         );
                         //Aqui va lo que es la comunicacion con la api, en este caso solo imprimi los inputs del usuario en la consola
-                        var nombre = firstName.text;
-                        var apellido = lastName.text;
-                        var edad = age.text;
-                        var correo = email.text;
-                        var contrasena = password.text;
-                        var contrasena2 = password2.text;
-                        developer.log(
-                            'Nombres: $nombre, apellidos: $apellido, edad: $edad, correo: $correo, contrasena: $contrasena, contrasena: $contrasena2');
+                        createUser(
+                          firstName.text,
+                          lastName.text,
+                          int.parse(age.text),
+                          email.text,
+                          password.text,
+                          context,
+                        );
                       }
                     },
                     child: const Text('Registrar cuenta'),
@@ -218,5 +223,106 @@ class RegisterFormState extends State<RegisterForm> {
         ),
       ),
     );
+  }
+}
+
+Future<void> createUser(
+  String firstName,
+  String lastName,
+  int age,
+  String email,
+  String password,
+  context,
+) async {
+  final response = await http.post(
+    Uri.parse('$PORT/auth/register/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'password': password,
+    }),
+  );
+
+  int conversion(Map<String, dynamic> json) {
+    return json['id'];
+  }
+
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    var id = conversion(jsonDecode(response.body));
+    createStudent(age, id);
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: const [
+              Text(
+                'Registro exitoso!',
+              ),
+              Icon(Icons.check),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Continuar'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginForm(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create user.');
+  }
+}
+
+Future<http.Response> createStudent(
+  int age,
+  int id,
+) async {
+  final response = await http.post(
+    Uri.parse('$PORT/auth/register/student'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'edad': '$age',
+      'user': '$id',
+    }),
+  );
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    developer.log('${jsonDecode(response.body)}');
+    return response;
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    developer.log('Failed to create student.');
+    throw Exception('Failed to create student.');
   }
 }
