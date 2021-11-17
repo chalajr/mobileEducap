@@ -254,8 +254,34 @@ Future<void> createUser(
   if (response.statusCode == 201) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
+    developer.log('${jsonDecode(response.body)}');
     var id = conversion(jsonDecode(response.body));
-    createStudent(age, id);
+    createStudent(age, id, context);
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create user.');
+  }
+}
+
+Future<http.Response> createStudent(
+  int age,
+  int id,
+  context,
+) async {
+  final response = await http.post(
+    Uri.parse('$PORT/auth/register/student'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'edad': '$age',
+      'user': '$id',
+    }),
+  );
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
     showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -293,30 +319,6 @@ Future<void> createUser(
         );
       },
     );
-  } else {
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    throw Exception('Failed to create user.');
-  }
-}
-
-Future<http.Response> createStudent(
-  int age,
-  int id,
-) async {
-  final response = await http.post(
-    Uri.parse('$PORT/auth/register/student'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'edad': '$age',
-      'user': '$id',
-    }),
-  );
-  if (response.statusCode == 201) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
     developer.log('${jsonDecode(response.body)}');
     return response;
   } else {
