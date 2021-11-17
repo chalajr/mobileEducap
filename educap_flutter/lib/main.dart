@@ -11,7 +11,6 @@ import 'app_layout.dart';
 
 const port = 'http://10.0.2.2:8000/API';
 
-var auth = false;
 void checkSession() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
