@@ -19,12 +19,10 @@ class MyAccountState extends State<MyAccount> {
   @override
   void initState() {
     super.initState();
-    getStudent();
   }
 
   @override
   Widget build(BuildContext context) {
-    getStudent();
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -38,13 +36,29 @@ class MyAccountState extends State<MyAccount> {
               child: Image.asset('images/output-onlinepngtools.png'),
             ),
           ),
-          Text(
-            'Frank',
-            style: TextStyle(
-              fontSize: 40.0,
-              color: eduCapBlue,
-              fontWeight: FontWeight.bold,
-            ),
+          FutureBuilder<User>(
+            future: getStudent(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return const Text('Sin conexión');
+                case ConnectionState.active:
+                case ConnectionState.waiting:
+                  return const Text('Esperando');
+                case ConnectionState.done:
+                  return Text(
+                    snapshot.data!.firstName,
+                    style: const TextStyle(
+                      fontSize: 40.0,
+                      color: eduCapBlue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+
+                default:
+                  return const Text('default');
+              }
+            },
           ),
           const Text(
             'Estudiante',
@@ -67,18 +81,33 @@ class MyAccountState extends State<MyAccount> {
               vertical: 10.0,
               horizontal: 25.0,
             ),
-            child: ListTile(
-              leading: const Icon(
-                Icons.mail,
-                color: eduCapBlue,
-              ),
-              title: Text(
-                'chalajr@gmail.com',
-                style: TextStyle(
-                  color: Colors.teal.shade900,
-                  fontSize: 20.0,
-                ),
-              ),
+            child: FutureBuilder<User>(
+              future: getStudent(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return const Text('Sin conexión');
+                  case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return const Text('Esperando');
+                  case ConnectionState.done:
+                    return ListTile(
+                      leading: const Icon(
+                        Icons.mail,
+                        color: eduCapBlue,
+                      ),
+                      title: Text(
+                        snapshot.data!.email,
+                        style: TextStyle(
+                          color: Colors.teal.shade900,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    );
+                  default:
+                    return const Text('default');
+                }
+              },
             ),
           ),
           Card(
@@ -86,18 +115,33 @@ class MyAccountState extends State<MyAccount> {
               vertical: 10.0,
               horizontal: 25.0,
             ),
-            child: ListTile(
-              leading: const Icon(
-                Icons.settings_accessibility,
-                color: eduCapBlue,
-              ),
-              title: Text(
-                '25',
-                style: TextStyle(
-                  color: Colors.teal.shade900,
-                  fontSize: 20.0,
-                ),
-              ),
+            child: FutureBuilder<User>(
+              future: getStudent(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return const Text('Sin conexión');
+                  case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return const Text('Esperando');
+                  case ConnectionState.done:
+                    return ListTile(
+                      leading: const Icon(
+                        Icons.mail,
+                        color: eduCapBlue,
+                      ),
+                      title: Text(
+                        '22',
+                        style: TextStyle(
+                          color: Colors.teal.shade900,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                    );
+                  default:
+                    return const Text('default');
+                }
+              },
             ),
           ),
           GestureDetector(
@@ -152,7 +196,7 @@ class MyAccountState extends State<MyAccount> {
 
 const port = 'http://10.0.2.2:8000/API';
 
-Future getStudent() async {
+Future<User> getStudent() async {
   String accessCode = await getAccessTokenApi();
 
   final response = await http.get(
