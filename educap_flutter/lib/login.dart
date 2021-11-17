@@ -1,8 +1,13 @@
+import 'package:educap_flutter/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'dart:developer' as developer;
 import 'register_form.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -118,10 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                                 );
                                 //Aqui va lo que es la comunicacion con la api, en este caso solo imprimi los inputs del usuario en la consola
 
-                                var correo = email.text;
-                                var contrasena = password.text;
-                                developer.log(
-                                    'correo: $correo, contrasena: $contrasena');
+                                login(email.text, password.text, context);
                               }
                             },
                             child: const Text('Iniciar Sesión'),
@@ -137,5 +139,49 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ),
     );
+  }
+}
+
+Future<void> login(
+  String email,
+  String password,
+  context,
+) async {
+  final response = await http.post(
+    Uri.parse('$PORT/auth/login'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email': email,
+      'password': password,
+    }),
+  );
+
+  String conversion(Map<String, dynamic> json) {
+    return json['refresh'];
+  }
+
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    developer.log('${jsonDecode(response.body)}');
+    // obtain shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    // set value
+    prefs.setBool('session', true);
+    var refresh = conversion(jsonDecode(response.body));
+    prefs.setString('refresh', refresh);
+    developer.log(refresh);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Layout(),
+      ),
+    );
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create user.');
   }
 }

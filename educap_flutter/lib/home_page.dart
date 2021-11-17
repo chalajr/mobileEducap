@@ -11,7 +11,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Text('HomePage')],
+      children: const [Text('HomePage')],
     );
   }
 }

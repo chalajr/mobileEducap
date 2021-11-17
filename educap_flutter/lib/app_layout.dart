@@ -30,51 +30,53 @@ class _LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Educap'),
-        backgroundColor: eduCapBlue,
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Colors.white,
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Educap'),
+          backgroundColor: eduCapBlue,
+        ),
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Colors.white,
+              ),
+              label: 'Home',
             ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.info_outline,
-              color: Colors.white,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+              label: 'Lecciones',
             ),
-            label: 'Lecciones',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.school,
-              color: Colors.white,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.school,
+                color: Colors.white,
+              ),
+              label: 'Categorias',
             ),
-            label: 'Categorias',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              label: 'Mi cuenta',
             ),
-            label: 'Mi cuenta',
-          ),
-        ],
-        backgroundColor: eduCapBlue,
-        onTap: _onItemTapped,
-        currentIndex: _selectedIndex,
+          ],
+          backgroundColor: eduCapBlue,
+          onTap: _onItemTapped,
+          currentIndex: _selectedIndex,
+        ),
       ),
     );
   }
