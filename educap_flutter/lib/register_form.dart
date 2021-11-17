@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-const PORT = 'http://10.0.2.2:8000/API';
+const port = 'http://10.0.2.2:8000/API';
 
 // Define a custom Form widget.
 class RegisterForm extends StatefulWidget {
@@ -235,7 +235,7 @@ Future<void> createUser(
   context,
 ) async {
   final response = await http.post(
-    Uri.parse('$PORT/auth/register/user'),
+    Uri.parse('$port/auth/register/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -270,7 +270,7 @@ Future<http.Response> createStudent(
   context,
 ) async {
   final response = await http.post(
-    Uri.parse('$PORT/auth/register/student'),
+    Uri.parse('$port/auth/register/student'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

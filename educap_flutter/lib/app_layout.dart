@@ -16,10 +16,10 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    (HomePage()),
-    (Lessons()),
-    (Categories()),
-    (MyAccount()),
+    (const HomePage()),
+    (const Lessons()),
+    (const Categories()),
+    (const MyAccount()),
   ];
 
   void _onItemTapped(int index) {
@@ -36,9 +36,7 @@ class _LayoutState extends State<Layout> {
           title: const Text('Educap'),
           backgroundColor: eduCapBlue,
         ),
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
+        body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.white,

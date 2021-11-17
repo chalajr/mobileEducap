@@ -1,13 +1,29 @@
 import 'package:educap_flutter/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:wc_form_validators/wc_form_validators.dart';
 import 'dart:developer' as developer;
 import 'register_form.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const eduCapBlue = Color(0xff5c8ec8);
+
+class Login extends StatelessWidget {
+  const Login({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        backgroundColor: eduCapBlue,
+      ),
+      title: "Login",
+      home: const LoginForm(),
+    );
+  }
+}
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -148,7 +164,7 @@ Future<void> login(
   context,
 ) async {
   final response = await http.post(
-    Uri.parse('$PORT/auth/login'),
+    Uri.parse('$port/auth/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
