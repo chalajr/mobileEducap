@@ -16,7 +16,6 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    (const HomePage()),
     (const Lessons()),
     (const Categories()),
     (const MyAccount()),
@@ -44,14 +43,7 @@ class _LayoutState extends State<Layout> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.info_outline,
+                Icons.menu_book,
                 color: Colors.white,
               ),
               label: 'Lecciones',

@@ -4,6 +4,7 @@ import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const port = 'http://10.0.2.2:8000/API';
+const imagePort = 'http://10.0.2.2:8000';
 
 void checkSession() async {
   WidgetsFlutterBinding.ensureInitialized();
