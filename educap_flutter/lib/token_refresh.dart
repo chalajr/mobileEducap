@@ -26,6 +26,6 @@ Future<String> getAccessTokenApi() async {
   }
 
   var acessCode = accessConversion(jsonDecode(access.body));
-
+  developer.log(acessCode);
   return acessCode;
 }

@@ -17,81 +17,60 @@ class MyAccount extends StatefulWidget {
 
 class MyAccountState extends State<MyAccount> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: Colors.black26,
-            child: CircleAvatar(
-              radius: 49.5,
-              backgroundColor: Colors.white,
-              child: Image.asset('images/output-onlinepngtools.png'),
-            ),
-          ),
-          FutureBuilder<User>(
-            future: getStudent(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return const Text('Sin conexión');
-                case ConnectionState.active:
-                case ConnectionState.waiting:
-                  return const Text('Esperando');
-                case ConnectionState.done:
-                  return Text(
-                    snapshot.data!.firstName,
+    return FutureBuilder<User>(
+      future: getStudent(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return const Text('Sin conexión');
+          case ConnectionState.active:
+          case ConnectionState.waiting:
+            return const Text('Esperando');
+          case ConnectionState.done:
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.black26,
+                    child: CircleAvatar(
+                      radius: 49.5,
+                      backgroundColor: Colors.white,
+                      child: Image.asset('images/output-onlinepngtools.png'),
+                    ),
+                  ),
+                  Text(
+                    snapshot.data!.firstName + ' ' + snapshot.data!.lastName,
                     style: const TextStyle(
                       fontSize: 40.0,
                       color: eduCapBlue,
                       fontWeight: FontWeight.bold,
                     ),
-                  );
-
-                default:
-                  return const Text('default');
-              }
-            },
-          ),
-          const Text(
-            'Estudiante',
-            style: TextStyle(
-              fontSize: 20.0,
-              color: eduCapBlue,
-              letterSpacing: 2.5,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-            width: 150,
-            child: Divider(
-              color: Colors.blue[800],
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 25.0,
-            ),
-            child: FutureBuilder<User>(
-              future: getStudent(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    return const Text('Sin conexión');
-                  case ConnectionState.active:
-                  case ConnectionState.waiting:
-                    return const Text('Esperando');
-                  case ConnectionState.done:
-                    return ListTile(
+                  ),
+                  const Text(
+                    'Estudiante',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: eduCapBlue,
+                      letterSpacing: 2.5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                    width: 150,
+                    child: Divider(
+                      color: Colors.blue[800],
+                    ),
+                  ),
+                  Card(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 25.0,
+                    ),
+                    child: ListTile(
                       leading: const Icon(
                         Icons.mail,
                         color: eduCapBlue,
@@ -103,93 +82,78 @@ class MyAccountState extends State<MyAccount> {
                           fontSize: 20.0,
                         ),
                       ),
-                    );
-                  default:
-                    return const Text('default');
-                }
-              },
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 25.0,
-            ),
-            child: FutureBuilder<User>(
-              future: getStudent(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    return const Text('Sin conexión');
-                  case ConnectionState.active:
-                  case ConnectionState.waiting:
-                    return const Text('Esperando');
-                  case ConnectionState.done:
-                    return ListTile(
+                    ),
+                  ),
+                  Card(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 25.0,
+                    ),
+                    child: ListTile(
                       leading: const Icon(
                         Icons.mail,
                         color: eduCapBlue,
                       ),
                       title: Text(
-                        '22',
+                        '${snapshot.data!.age}',
                         style: TextStyle(
                           color: Colors.teal.shade900,
                           fontSize: 20.0,
                         ),
                       ),
-                    );
-                  default:
-                    return const Text('default');
-                }
-              },
-            ),
-          ),
-          GestureDetector(
-            onTap: () => {},
-            child: Card(
-              margin: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 25.0,
-              ),
-              child: ListTile(
-                leading: const Icon(
-                  Icons.menu_book,
-                  color: eduCapBlue,
-                ),
-                title: Text(
-                  'Mis lecciones',
-                  style: TextStyle(
-                    color: Colors.teal.shade900,
-                    fontSize: 20.0,
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => {getStudent()},
-            child: Card(
-              margin: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 25.0,
-              ),
-              child: ListTile(
-                leading: const Icon(
-                  Icons.logout,
-                  color: eduCapBlue,
-                ),
-                title: Text(
-                  'Cerrar sesión',
-                  style: TextStyle(
-                    color: Colors.teal.shade900,
-                    fontSize: 20.0,
+                  GestureDetector(
+                    onTap: () => {},
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 25.0,
+                      ),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.menu_book,
+                          color: eduCapBlue,
+                        ),
+                        title: Text(
+                          'Mis lecciones',
+                          style: TextStyle(
+                            color: Colors.teal.shade900,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () => {getStudent()},
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 25.0,
+                      ),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.logout,
+                          color: eduCapBlue,
+                        ),
+                        title: Text(
+                          'Cerrar sesión',
+                          style: TextStyle(
+                            color: Colors.teal.shade900,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-        ],
-      ),
+            );
+          default:
+            return const Text('default');
+        }
+      },
     );
   }
 }
@@ -206,10 +170,19 @@ Future<User> getStudent() async {
       'Authorization': 'Bearer $accessCode',
     },
   );
-  if (response.statusCode == 200) {
+
+  final response2 = await http.get(
+    Uri.parse('$port/get/student'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessCode',
+    },
+  );
+  if (response.statusCode == 200 && response2.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var user = User.fromJson(jsonDecode(response.body));
+    var student = Student.fromJson(jsonDecode(response2.body));
+    var user = User.fromJson(jsonDecode(response.body), student.age);
 
     return user;
   } else {
@@ -223,18 +196,33 @@ class User {
   String email;
   String firstName;
   String lastName;
+  int age;
 
   User({
     required this.email,
     required this.firstName,
     required this.lastName,
+    required this.age,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic> json, int age) {
     return User(
       email: json['email'],
       firstName: json['first_name'],
       lastName: json['last_name'],
+      age: age,
+    );
+  }
+}
+
+class Student {
+  int age;
+  Student({
+    required this.age,
+  });
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
+      age: json['edad'],
     );
   }
 }
