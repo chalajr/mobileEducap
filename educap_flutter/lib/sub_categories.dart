@@ -3,63 +3,39 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'category.dart';
-import 'sub_categories.dart';
 
 import 'token_refresh.dart';
 
-final List<String> entries = <String>['A', 'B', 'C'];
-final List<int> colorCodes = <int>[600, 500, 100];
-
-const port = 'http://10.0.2.2:8000/API';
 const imagePort = 'http://10.0.2.2:8000';
 
-class CategoryArguments {
+class SubCategories extends StatefulWidget {
+  static const routeName = 'SubCategories';
+
   final int id;
-  CategoryArguments(this.id);
-}
 
-class CategoriesLayout extends StatefulWidget {
-  const CategoriesLayout({Key? key}) : super(key: key);
-
-  @override
-  CategoriesLayoutState createState() => CategoriesLayoutState();
-}
-
-class CategoriesLayoutState extends State<CategoriesLayout> {
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        if (settings.name == 'SubCategories') {
-          final args = settings.arguments as CategoryArguments;
-          return MaterialPageRoute(builder: (context) {
-            return SubCategories(id: args.id);
-          });
-        } else if (settings.name == '/') {
-          return MaterialPageRoute(builder: (context) {
-            return const Categories();
-          });
-        }
-        return null;
-      },
-    );
-  }
-}
-
-class Categories extends StatefulWidget {
-  const Categories({Key? key}) : super(key: key);
+  const SubCategories({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
-  _CategoriesState createState() => _CategoriesState();
+  // ignore: no_logic_in_create_state
+  _SubCategoriesState createState() => _SubCategoriesState(id);
 }
 
-class _CategoriesState extends State<Categories> {
+class _SubCategoriesState extends State<SubCategories> {
+  final int id;
+
+  //Constructor
+  _SubCategoriesState(this.id);
+
   TextEditingController searchController = TextEditingController();
   String searchString = '';
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Category>>(
-      future: getCategory(context),
+      future: getSubCategory(context, id),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -125,12 +101,7 @@ class _CategoriesState extends State<Categories> {
                                 title: Text(snapshot.data![index].nombre),
                                 subtitle:
                                     Text(snapshot.data![index].descripcion),
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, SubCategories.routeName,
-                                      arguments: CategoryArguments(
-                                          snapshot.data![index].id));
-                                },
+                                onTap: () {},
                                 dense: false,
                                 trailing:
                                     const Icon(Icons.chevron_right_rounded),
@@ -150,11 +121,11 @@ class _CategoriesState extends State<Categories> {
   }
 }
 
-Future<List<Category>> getCategory(context) async {
+Future<List<Category>> getSubCategory(context, id) async {
   String accessCode = await getAccessTokenApi(context);
 
   final response = await http.get(
-    Uri.parse('$port/category/getAll'),
+    Uri.parse('$port/category/getSub/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $accessCode',
