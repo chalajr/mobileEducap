@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'token_refresh.dart';
+import 'package:provider/provider.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
@@ -34,8 +35,17 @@ class CategoriesLayoutState extends State<CategoriesLayout> {
     return Navigator(
       onGenerateRoute: (settings) {
         Widget page = const Categories();
-        if (settings.name == 'SubCategories') page = const SubCategories();
-        return MaterialPageRoute(builder: (_) => page);
+        if (settings.name == 'SubCategories') {
+          final args = settings.arguments as CategoryArguments;
+          return MaterialPageRoute(builder: (context) {
+            return SubCategories(id: args.id);
+          });
+        } else if (settings.name == '/') {
+          return MaterialPageRoute(builder: (context) {
+            return const Categories();
+          });
+        }
+        return null;
       },
     );
   }
@@ -123,10 +133,9 @@ class _CategoriesState extends State<Categories> {
                                 onTap: () {
                                   print(snapshot.data![index].id);
                                   Navigator.pushNamed(
-                                    context,
-                                    'SubCategories',
-                                    arguments: snapshot.data![index].id,
-                                  );
+                                      context, SubCategories.routeName,
+                                      arguments: CategoryArguments(
+                                          snapshot.data![index].id));
                                 },
                                 dense: false,
                                 trailing:
@@ -148,19 +157,32 @@ class _CategoriesState extends State<Categories> {
 }
 
 class SubCategories extends StatefulWidget {
-  const SubCategories({Key? key}) : super(key: key);
+  static const routeName = 'SubCategories';
+
+  final int id;
+
+  const SubCategories({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
-  _SubCategoriesState createState() => _SubCategoriesState();
+  // ignore: no_logic_in_create_state
+  _SubCategoriesState createState() => _SubCategoriesState(id);
 }
 
 class _SubCategoriesState extends State<SubCategories> {
+  final int id;
+
+  //Constructor
+  _SubCategoriesState(this.id);
+
   TextEditingController searchController = TextEditingController();
   String searchString = '';
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
+    print(id);
     return FutureBuilder<List<Category>>(
       future: getCategory(),
       builder: (context, snapshot) {
@@ -194,7 +216,7 @@ class _SubCategoriesState extends State<SubCategories> {
           case ConnectionState.done:
             return Column(
               children: [
-                Text('${args}'),
+                Text('$id'),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
