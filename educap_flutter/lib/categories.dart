@@ -3,9 +3,11 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'category.dart';
+import 'lessons.dart';
 import 'sub_categories.dart';
-
+import 'lesson.dart';
 import 'token_refresh.dart';
+import 'lesson_detail_view.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
@@ -41,6 +43,7 @@ class CategoriesLayoutState extends State<CategoriesLayout> {
             return const Categories();
           });
         }
+
         return null;
       },
     );
