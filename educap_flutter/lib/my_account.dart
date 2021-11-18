@@ -25,97 +25,70 @@ class MyAccountState extends State<MyAccount> {
             return const Text('Sin conexión');
           case ConnectionState.active:
           case ConnectionState.waiting:
-            return const Text('Esperando');
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Mi cuenta'),
+                backgroundColor: eduCapBlue,
+              ),
+              body: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           case ConnectionState.done:
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.black26,
-                    child: CircleAvatar(
-                      radius: 49.5,
-                      backgroundColor: Colors.white,
-                      child: Image.asset('images/output-onlinepngtools.png'),
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Mi cuenta'),
+                backgroundColor: eduCapBlue,
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.black26,
+                      child: CircleAvatar(
+                        radius: 49.5,
+                        backgroundColor: Colors.white,
+                        child: Image.asset('images/output-onlinepngtools.png'),
+                      ),
                     ),
-                  ),
-                  Text(
-                    snapshot.data!.firstName + ' ' + snapshot.data!.lastName,
-                    style: const TextStyle(
-                      fontSize: 40.0,
-                      color: eduCapBlue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Estudiante',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: eduCapBlue,
-                      letterSpacing: 2.5,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 150,
-                    child: Divider(
-                      color: Colors.blue[800],
-                    ),
-                  ),
-                  Card(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 25.0,
-                    ),
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.mail,
+                    Text(
+                      snapshot.data!.firstName + ' ' + snapshot.data!.lastName,
+                      style: const TextStyle(
+                        fontSize: 40.0,
                         color: eduCapBlue,
-                      ),
-                      title: Text(
-                        snapshot.data!.email,
-                        style: TextStyle(
-                          color: Colors.teal.shade900,
-                          fontSize: 20.0,
-                        ),
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Card(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 25.0,
-                    ),
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.mail,
+                    const Text(
+                      'Estudiante',
+                      style: TextStyle(
+                        fontSize: 20.0,
                         color: eduCapBlue,
-                      ),
-                      title: Text(
-                        '${snapshot.data!.age}',
-                        style: TextStyle(
-                          color: Colors.teal.shade900,
-                          fontSize: 20.0,
-                        ),
+                        letterSpacing: 2.5,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () => {},
-                    child: Card(
+                    SizedBox(
+                      height: 20,
+                      width: 150,
+                      child: Divider(
+                        color: Colors.blue[800],
+                      ),
+                    ),
+                    Card(
                       margin: const EdgeInsets.symmetric(
                         vertical: 10.0,
                         horizontal: 25.0,
                       ),
                       child: ListTile(
                         leading: const Icon(
-                          Icons.menu_book,
+                          Icons.mail,
                           color: eduCapBlue,
                         ),
                         title: Text(
-                          'Mis lecciones',
+                          snapshot.data!.email,
                           style: TextStyle(
                             color: Colors.teal.shade900,
                             fontSize: 20.0,
@@ -123,70 +96,111 @@ class MyAccountState extends State<MyAccount> {
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () => {
-                      showDialog<void>(
-                        context: context,
-                        barrierDismissible: true, // user must tap button!
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Row(
-                              children: const [
-                                Flexible(
-                                  child: Text(
-                                    'Estas seguro que deseas cerrar tu sesión?',
-                                  ),
-                                ),
-                              ],
+                    Card(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 25.0,
+                      ),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.mail,
+                          color: eduCapBlue,
+                        ),
+                        title: Text(
+                          '${snapshot.data!.age}',
+                          style: TextStyle(
+                            color: Colors.teal.shade900,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => {},
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 25.0,
+                        ),
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.menu_book,
+                            color: eduCapBlue,
+                          ),
+                          title: Text(
+                            'Mis lecciones',
+                            style: TextStyle(
+                              color: Colors.teal.shade900,
+                              fontSize: 20.0,
                             ),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: const <Widget>[
-                                  Text(
-                                      'Una vez que cierres sesión tendras que volver a entrar a la aplicacion utilizando tus credenciales.'),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Row(
+                                children: const [
+                                  Flexible(
+                                    child: Text(
+                                      'Estas seguro que deseas cerrar tu sesión?',
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: const [
-                                    Text('Continuar'),
-                                    Icon(Icons.logout),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: const <Widget>[
+                                    Text(
+                                        'Una vez que cierres sesión tendras que volver a entrar a la aplicacion utilizando tus credenciales.'),
                                   ],
                                 ),
-                                onPressed: () {
-                                  logout(context);
-                                },
                               ),
-                            ],
-                          );
-                        },
-                      ),
-                    },
-                    child: Card(
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 25.0,
-                      ),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.logout,
-                          color: eduCapBlue,
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: const [
+                                      Text('Continuar'),
+                                      Icon(Icons.logout),
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    logout(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
                         ),
-                        title: Text(
-                          'Cerrar sesión',
-                          style: TextStyle(
-                            color: Colors.teal.shade900,
-                            fontSize: 20.0,
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 25.0,
+                        ),
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.logout,
+                            color: eduCapBlue,
+                          ),
+                          title: Text(
+                            'Cerrar sesión',
+                            style: TextStyle(
+                              color: Colors.teal.shade900,
+                              fontSize: 20.0,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           default:

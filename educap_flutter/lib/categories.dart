@@ -10,6 +10,7 @@ import 'token_refresh.dart';
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
 
+const eduCapBlue = Color(0xff5c8ec8);
 const port = 'http://10.0.2.2:8000/API';
 const imagePort = 'http://10.0.2.2:8000';
 
@@ -66,81 +67,99 @@ class _CategoriesState extends State<Categories> {
             return const Text('No tienes coneccion a internet.');
           case ConnectionState.active:
           case ConnectionState.waiting:
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        searchString = value;
-                      });
-                    },
-                    controller: searchController,
-                    decoration: const InputDecoration(
-                        labelText: "Buscar Categorías",
-                        hintText: "Buscar",
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)))),
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Categorías'),
+                backgroundColor: eduCapBlue,
+              ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchString = value;
+                        });
+                      },
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                          labelText: "Buscar Categorías",
+                          hintText: "Buscar",
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)))),
+                    ),
                   ),
-                ),
-              ],
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                ],
+              ),
             );
           case ConnectionState.done:
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        searchString = value;
-                      });
-                    },
-                    controller: searchController,
-                    decoration: const InputDecoration(
-                        labelText: "Buscar Categorías",
-                        hintText: "Buscar",
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)))),
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Categorías'),
+                backgroundColor: eduCapBlue,
+              ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchString = value;
+                        });
+                      },
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                          labelText: "Buscar Categorías",
+                          hintText: "Buscar",
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)))),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(8),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return snapshot.data![index].nombre
-                              .toLowerCase()
-                              .contains(searchString.toLowerCase())
-                          ? Card(
-                              child: ListTile(
-                                leading: Image.network(
-                                    imagePort + snapshot.data![index].imagen),
-                                title: Text(snapshot.data![index].nombre),
-                                subtitle:
-                                    Text(snapshot.data![index].descripcion),
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, SubCategories.routeName,
-                                      arguments: CategoryArguments(
-                                          snapshot.data![index].id));
-                                },
-                                dense: false,
-                                trailing:
-                                    const Icon(Icons.chevron_right_rounded),
-                              ),
-                            )
-                          : const Text('');
-                    },
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(8),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return snapshot.data![index].nombre
+                                .toLowerCase()
+                                .contains(searchString.toLowerCase())
+                            ? Card(
+                                child: ListTile(
+                                  leading: Image.network(
+                                      imagePort + snapshot.data![index].imagen),
+                                  title: Text(snapshot.data![index].nombre),
+                                  subtitle: Text(
+                                    snapshot.data![index].descripcion,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, SubCategories.routeName,
+                                        arguments: CategoryArguments(
+                                            snapshot.data![index].id));
+                                  },
+                                  dense: false,
+                                  trailing:
+                                      const Icon(Icons.chevron_right_rounded),
+                                ),
+                              )
+                            : const Text('');
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           default:
             return const Text('default');
