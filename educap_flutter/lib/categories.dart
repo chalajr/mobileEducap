@@ -1,15 +1,9 @@
-import 'package:educap_flutter/home_page.dart';
-import 'package:educap_flutter/login.dart';
-import 'package:educap_flutter/main.dart';
-import 'package:educap_flutter/my_account.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'token_refresh.dart';
-import 'package:provider/provider.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
@@ -34,7 +28,6 @@ class CategoriesLayoutState extends State<CategoriesLayout> {
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (settings) {
-        Widget page = const Categories();
         if (settings.name == 'SubCategories') {
           final args = settings.arguments as CategoryArguments;
           return MaterialPageRoute(builder: (context) {
@@ -64,7 +57,7 @@ class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Category>>(
-      future: getCategory(),
+      future: getCategory(context),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -131,7 +124,6 @@ class _CategoriesState extends State<Categories> {
                                 subtitle:
                                     Text(snapshot.data![index].descripcion),
                                 onTap: () {
-                                  print(snapshot.data![index].id);
                                   Navigator.pushNamed(
                                       context, SubCategories.routeName,
                                       arguments: CategoryArguments(
@@ -182,9 +174,8 @@ class _SubCategoriesState extends State<SubCategories> {
 
   @override
   Widget build(BuildContext context) {
-    print(id);
     return FutureBuilder<List<Category>>(
-      future: getCategory(),
+      future: getCategory(context),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -271,8 +262,8 @@ class _SubCategoriesState extends State<SubCategories> {
   }
 }
 
-Future<List<Category>> getCategory() async {
-  String accessCode = await getAccessTokenApi();
+Future<List<Category>> getCategory(context) async {
+  String accessCode = await getAccessTokenApi(context);
 
   final response = await http.get(
     Uri.parse('$port/category/getAll'),

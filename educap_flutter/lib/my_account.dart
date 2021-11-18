@@ -1,9 +1,8 @@
+import 'package:educap_flutter/logout.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'token_refresh.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
@@ -19,7 +18,7 @@ class MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<User>(
-      future: getStudent(),
+      future: getStudent(context),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -126,7 +125,47 @@ class MyAccountState extends State<MyAccount> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => {getStudent()},
+                    onTap: () => {
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: true, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Row(
+                              children: const [
+                                Flexible(
+                                  child: Text(
+                                    'Estas seguro que deseas cerrar tu sesión?',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: const <Widget>[
+                                  Text(
+                                      'Una vez que cierres sesión tendras que volver a entrar a la aplicacion utilizando tus credenciales.'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: const [
+                                    Text('Continuar'),
+                                    Icon(Icons.logout),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  logout(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    },
                     child: Card(
                       margin: const EdgeInsets.symmetric(
                         vertical: 10.0,
@@ -160,9 +199,8 @@ class MyAccountState extends State<MyAccount> {
 
 const port = 'http://10.0.2.2:8000/API';
 
-Future<User> getStudent() async {
-  String accessCode = await getAccessTokenApi();
-
+Future<User> getStudent(context) async {
+  String accessCode = await getAccessTokenApi(context);
   final response = await http.get(
     Uri.parse('$port/get/user'),
     headers: <String, String>{
