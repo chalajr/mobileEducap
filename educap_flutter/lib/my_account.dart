@@ -143,11 +143,11 @@ class MyAccountState extends State<MyAccount> {
                       ),
                       child: ListTile(
                         leading: const Icon(
-                          Icons.mail,
+                          Icons.person,
                           color: eduCapBlue,
                         ),
                         title: Text(
-                          '${snapshot.data!.age}',
+                          '${snapshot.data!.age} años',
                           style: TextStyle(
                             color: Colors.teal.shade900,
                             fontSize: 20.0,
