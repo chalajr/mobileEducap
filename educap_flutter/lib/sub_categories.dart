@@ -3,10 +3,11 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'category.dart';
-
+import 'category_lesson_list.dart';
 import 'token_refresh.dart';
 
 const imagePort = 'http://10.0.2.2:8000';
+const port = 'http://10.0.2.2:8000/API';
 
 const eduCapBlue = Color(0xff5c8ec8);
 
@@ -120,7 +121,13 @@ class _SubCategoriesState extends State<SubCategories> {
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  onTap: () {},
+                                  onTap: () {
+                                    print(snapshot.data![index].id);
+                                    Navigator.pushNamed(
+                                        context, CategoryLessonList.routeName,
+                                        arguments: CategoryArguments(
+                                            snapshot.data![index].id));
+                                  },
                                   dense: false,
                                   trailing:
                                       const Icon(Icons.chevron_right_rounded),
@@ -161,6 +168,7 @@ Future<List<Category>> getSubCategory(context, id) async {
       categoryToAdd = Category.fromJson(category);
       categories.add(categoryToAdd);
     }
+
     return categories;
   } else {
     // If the server did not return a 200 OK response,

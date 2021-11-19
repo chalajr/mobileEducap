@@ -11,40 +11,6 @@ const eduCapBlue = Color(0xff5c8ec8);
 const port = 'http://10.0.2.2:8000/API';
 const imagePort = 'http://10.0.2.2:8000';
 
-class MyLessonArguments {
-  final int id;
-  MyLessonArguments(this.id);
-}
-
-class MyLessonList extends StatefulWidget {
-  const MyLessonList({Key? key}) : super(key: key);
-
-  @override
-  _MyLessonListState createState() => _MyLessonListState();
-}
-
-class _MyLessonListState extends State<MyLessonList> {
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        if (settings.name == 'LessonDetail') {
-          final args = settings.arguments as MyLessonArguments;
-          return MaterialPageRoute(builder: (context) {
-            return LessonDetail(id: args.id);
-          });
-        } else if (settings.name == '/') {
-          return MaterialPageRoute(builder: (context) {
-            return const MyLessonListLayout();
-          });
-        }
-
-        return null;
-      },
-    );
-  }
-}
-
 class MyLessonListLayout extends StatefulWidget {
   static const routeName = 'MyLessonList';
 
