@@ -1,11 +1,49 @@
 import 'package:educap_flutter/logout.dart';
+import 'package:educap_flutter/my_lesson_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'token_refresh.dart';
+import 'lesson_detail_view.dart';
+import 'my_lesson_list.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
+const port = 'http://10.0.2.2:8000/API';
+const imagePort = 'http://10.0.2.2:8000';
+
+class MyAccountLayout extends StatefulWidget {
+  const MyAccountLayout({Key? key}) : super(key: key);
+
+  @override
+  _MyAccountLayoutState createState() => _MyAccountLayoutState();
+}
+
+class _MyAccountLayoutState extends State<MyAccountLayout> {
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      onGenerateRoute: (settings) {
+        if (settings.name == 'MyLessonList') {
+          return MaterialPageRoute(builder: (context) {
+            return const MyLessonListLayout();
+          });
+        } else if (settings.name == '/') {
+          return MaterialPageRoute(builder: (context) {
+            return const MyAccount();
+          });
+        }
+        if (settings.name == 'LessonDetail') {
+          final args = settings.arguments as MyLessonArguments;
+          return MaterialPageRoute(builder: (context) {
+            return LessonDetail(id: args.id);
+          });
+        }
+        return null;
+      },
+    );
+  }
+}
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -116,13 +154,18 @@ class MyAccountState extends State<MyAccount> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => {},
                       child: Card(
                         margin: const EdgeInsets.symmetric(
                           vertical: 10.0,
                           horizontal: 25.0,
                         ),
                         child: ListTile(
+                          onTap: () => {
+                            Navigator.pushNamed(
+                              context,
+                              MyLessonListLayout.routeName,
+                            )
+                          },
                           leading: const Icon(
                             Icons.menu_book,
                             color: eduCapBlue,
@@ -210,8 +253,6 @@ class MyAccountState extends State<MyAccount> {
     );
   }
 }
-
-const port = 'http://10.0.2.2:8000/API';
 
 Future<User> getStudent(context) async {
   String accessCode = await getAccessTokenApi(context);

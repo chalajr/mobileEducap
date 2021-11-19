@@ -17,7 +17,7 @@ class _LayoutState extends State<Layout> {
   static final List<Widget> _widgetOptions = <Widget>[
     (const LessonsLayout()),
     (const CategoriesLayout()),
-    (const MyAccount()),
+    (const MyAccountLayout()),
   ];
 
   void _onItemTapped(int index) {
