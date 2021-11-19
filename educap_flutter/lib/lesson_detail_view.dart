@@ -7,18 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 const imagePort = 'http://10.0.2.2:8000';
 
 const eduCapBlue = Color(0xff5c8ec8);
 
+String? url;
+
 class LessonDetail extends StatefulWidget {
   static const routeName = 'LessonDetail';
-
   final int id;
 
   const LessonDetail({
@@ -33,6 +32,11 @@ class LessonDetail extends StatefulWidget {
 
 class _LessonDetailState extends State<LessonDetail> {
   final int id;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   //Constructor
   _LessonDetailState(this.id);
@@ -243,6 +247,64 @@ class _LessonDetailState extends State<LessonDetail> {
                             ),
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: FutureBuilder<List<Video>>(
+                            future: getVideo(context, id),
+                            builder: (context, snapshot) {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.none:
+                                  return const Text(
+                                      'No tienes conección a internet.');
+                                case ConnectionState.active:
+                                case ConnectionState.waiting:
+                                  return const Text('Esperando conexión');
+                                case ConnectionState.done:
+                                  return ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Card(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            ListTile(
+                                              title: Center(
+                                                child: Text(snapshot
+                                                    .data![index].titulo),
+                                              ),
+                                              subtitle: Center(
+                                                child: Text(snapshot
+                                                    .data![index].descripcion),
+                                              ),
+                                            ),
+                                            //TODO: VIDEOPLAYER
+                                            YoutubePlayer(
+                                              controller:
+                                                  YoutubePlayerController(
+                                                initialVideoId: parseYT(
+                                                    snapshot.data![index].link),
+                                                flags: const YoutubePlayerFlags(
+                                                  mute: false,
+                                                  autoPlay: false,
+                                                ),
+                                              ),
+                                              showVideoProgressIndicator: true,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                default:
+                                  return const Text('default');
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -354,4 +416,8 @@ Future<List<Video>> getVideo(context, id) async {
     // then throw an exception.
     throw Exception('Failed to load User');
   }
+}
+
+String parseYT(String url) {
+  return url.replaceAll('https://youtu.be/', '');
 }
