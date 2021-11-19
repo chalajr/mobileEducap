@@ -1,11 +1,11 @@
-class File {
+class Archivo {
   int orden;
   String titulo;
   String descripcion;
   String path;
   String lipo;
 
-  File({
+  Archivo({
     required this.orden,
     required this.titulo,
     required this.descripcion,
@@ -13,8 +13,8 @@ class File {
     required this.lipo,
   });
 
-  factory File.fromJson(Map<String, dynamic> json) {
-    return File(
+  factory Archivo.fromJson(Map<String, dynamic> json) {
+    return Archivo(
         orden: json['orden'],
         titulo: json['titulo'],
         descripcion: json['descripcion'],

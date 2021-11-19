@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const imagePort = 'http://10.0.2.2:8000';
 
@@ -131,7 +135,7 @@ class _LessonDetailState extends State<LessonDetail> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
-                          child: FutureBuilder<List<File>>(
+                          child: FutureBuilder<List<Archivo>>(
                             future: getFile(context, id),
                             builder: (context, snapshot) {
                               switch (snapshot.connectionState) {
@@ -143,8 +147,9 @@ class _LessonDetailState extends State<LessonDetail> {
                                   return const Text('Esperando conexión');
                                 case ConnectionState.done:
                                   return ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
                                     itemCount: snapshot.data!.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
@@ -205,7 +210,11 @@ class _LessonDetailState extends State<LessonDetail> {
                                                 TextButton(
                                                   child:
                                                       const Text('Descargar'),
-                                                  onPressed: () {/* ... */},
+                                                  onPressed: () {
+                                                    launch(imagePort +
+                                                        snapshot
+                                                            .data![index].path);
+                                                  },
                                                 ),
                                                 const SizedBox(width: 8),
                                               ],
@@ -291,7 +300,7 @@ Future<CategoryByName> getCategory(context, id) async {
   }
 }
 
-Future<List<File>> getFile(context, id) async {
+Future<List<Archivo>> getFile(context, id) async {
   String accessCode = await getAccessTokenApi(context);
 
   final response = await http.get(
@@ -305,10 +314,10 @@ Future<List<File>> getFile(context, id) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     var categoriesDecode = jsonDecode(response.body);
-    List<File> categories = [];
+    List<Archivo> categories = [];
     for (var file in categoriesDecode) {
       dynamic fileToAdd;
-      fileToAdd = File.fromJson(file);
+      fileToAdd = Archivo.fromJson(file);
       categories.add(fileToAdd);
     }
     return categories;
