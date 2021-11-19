@@ -22,3 +22,8 @@ class Category {
         categoriaPadre: json['categoriaPadre']);
   }
 }
+
+class CategoryArguments {
+  final int id;
+  CategoryArguments(this.id);
+}

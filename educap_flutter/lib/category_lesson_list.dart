@@ -1,77 +1,44 @@
-import 'package:educap_flutter/category_lesson_list.dart';
+import 'package:educap_flutter/categories.dart';
+import 'package:educap_flutter/lesson_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'category.dart';
-import 'sub_categories.dart';
 import 'token_refresh.dart';
-import 'lesson_detail.dart';
-import 'lesson_detail_view.dart';
-
-final List<String> entries = <String>['A', 'B', 'C'];
-final List<int> colorCodes = <int>[600, 500, 100];
+import 'category.dart';
+import 'lesson.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
 const port = 'http://10.0.2.2:8000/API';
 const imagePort = 'http://10.0.2.2:8000';
 
-class CategoriesLayout extends StatefulWidget {
-  const CategoriesLayout({Key? key}) : super(key: key);
+class CategoryLessonList extends StatefulWidget {
+  static const routeName = 'CategoryLessonList';
 
+  final int id;
+
+  const CategoryLessonList({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
   @override
-  CategoriesLayoutState createState() => CategoriesLayoutState();
+  // ignore: no_logic_in_create_state
+  CategoryLessonListState createState() => CategoryLessonListState(id);
 }
 
-class CategoriesLayoutState extends State<CategoriesLayout> {
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        if (settings.name == 'SubCategories') {
-          final args = settings.arguments as CategoryArguments;
-          return MaterialPageRoute(builder: (context) {
-            return SubCategories(id: args.id);
-          });
-        }
-        if (settings.name == '/') {
-          return MaterialPageRoute(builder: (context) {
-            return const Categories();
-          });
-        }
-        if (settings.name == 'CategoryLessonList') {
-          final args = settings.arguments as CategoryArguments;
-          return MaterialPageRoute(builder: (context) {
-            return CategoryLessonList(id: args.id);
-          });
-        }
-        if (settings.name == 'LessonDetailView') {
-          final args = settings.arguments as CategoryArguments;
-          return MaterialPageRoute(builder: (context) {
-            return LessonDetailView(id: args.id);
-          });
-        }
+class CategoryLessonListState extends State<CategoryLessonList> {
+  final int id;
 
-        return null;
-      },
-    );
-  }
-}
+  //constructor
+  CategoryLessonListState(this.id);
 
-class Categories extends StatefulWidget {
-  const Categories({Key? key}) : super(key: key);
-
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
-
-class _CategoriesState extends State<Categories> {
   TextEditingController searchController = TextEditingController();
   String searchString = '';
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Category>>(
-      future: getCategory(context),
+    return FutureBuilder<List<Lesson>>(
+      future: getCategoryLessons(context, id),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -80,7 +47,7 @@ class _CategoriesState extends State<Categories> {
           case ConnectionState.waiting:
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Categorías'),
+                title: const Text('Lecciones'),
                 backgroundColor: eduCapBlue,
               ),
               body: Column(
@@ -95,7 +62,7 @@ class _CategoriesState extends State<Categories> {
                       },
                       controller: searchController,
                       decoration: const InputDecoration(
-                          labelText: "Buscar Categorías",
+                          labelText: "Buscar Lecciones",
                           hintText: "Buscar",
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(
@@ -112,7 +79,7 @@ class _CategoriesState extends State<Categories> {
           case ConnectionState.done:
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Categorías'),
+                title: const Text('Lecciones'),
                 backgroundColor: eduCapBlue,
               ),
               body: Column(
@@ -127,7 +94,7 @@ class _CategoriesState extends State<Categories> {
                       },
                       controller: searchController,
                       decoration: const InputDecoration(
-                          labelText: "Buscar Categorías",
+                          labelText: "Buscar Lecciones",
                           hintText: "Buscar",
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(
@@ -141,14 +108,14 @@ class _CategoriesState extends State<Categories> {
                       padding: const EdgeInsets.all(8),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return snapshot.data![index].nombre
+                        return snapshot.data![index].titulo
                                 .toLowerCase()
                                 .contains(searchString.toLowerCase())
                             ? Card(
                                 child: ListTile(
                                   leading: Image.network(
                                       imagePort + snapshot.data![index].imagen),
-                                  title: Text(snapshot.data![index].nombre),
+                                  title: Text(snapshot.data![index].titulo),
                                   subtitle: Text(
                                     snapshot.data![index].descripcion,
                                     maxLines: 2,
@@ -156,7 +123,7 @@ class _CategoriesState extends State<Categories> {
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, SubCategories.routeName,
+                                        context, LessonDetailView.routeName,
                                         arguments: CategoryArguments(
                                             snapshot.data![index].id));
                                   },
@@ -180,11 +147,11 @@ class _CategoriesState extends State<Categories> {
   }
 }
 
-Future<List<Category>> getCategory(context) async {
+Future<List<Lesson>> getCategoryLessons(context, id) async {
   String accessCode = await getAccessTokenApi(context);
 
   final response = await http.get(
-    Uri.parse('$port/category/getAll'),
+    Uri.parse('$port/getLessonsByFilter/$id'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $accessCode',
@@ -194,10 +161,10 @@ Future<List<Category>> getCategory(context) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     var categoriesDecode = jsonDecode(response.body);
-    List<Category> categories = [];
+    List<Lesson> categories = [];
     for (var category in categoriesDecode) {
       dynamic categoryToAdd;
-      categoryToAdd = Category.fromJson(category);
+      categoryToAdd = Lesson.fromJson(category);
       categories.add(categoryToAdd);
     }
     return categories;

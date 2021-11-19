@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'token_refresh.dart';
 import 'lesson_detail_view.dart';
 import 'my_lesson_list.dart';
+import 'lesson_detail.dart';
+import 'lesson_detail_view.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
 const port = 'http://10.0.2.2:8000/API';
@@ -33,10 +35,10 @@ class _MyAccountLayoutState extends State<MyAccountLayout> {
             return const MyAccount();
           });
         }
-        if (settings.name == 'LessonDetail') {
+        if (settings.name == 'LessonDetailView') {
           final args = settings.arguments as MyLessonArguments;
           return MaterialPageRoute(builder: (context) {
-            return LessonDetail(id: args.id);
+            return LessonDetailView(id: args.id);
           });
         }
         return null;

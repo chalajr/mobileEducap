@@ -16,11 +16,11 @@ const eduCapBlue = Color(0xff5c8ec8);
 
 String? url;
 
-class LessonDetail extends StatefulWidget {
-  static const routeName = 'LessonDetail';
+class LessonDetailView extends StatefulWidget {
+  static const routeName = 'LessonDetailView';
   final int id;
 
-  const LessonDetail({
+  const LessonDetailView({
     Key? key,
     required this.id,
   }) : super(key: key);
@@ -30,7 +30,7 @@ class LessonDetail extends StatefulWidget {
   _LessonDetailState createState() => _LessonDetailState(id);
 }
 
-class _LessonDetailState extends State<LessonDetail> {
+class _LessonDetailState extends State<LessonDetailView> {
   final int id;
 
   @override
