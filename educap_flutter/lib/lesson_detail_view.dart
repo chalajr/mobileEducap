@@ -95,16 +95,73 @@ class _LessonDetailState extends State<LessonDetail> {
                                 ),
                               ),
                             ),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(Icons.bookmark),
-                              label: const Text('Follow'),
-                            )
+                            FutureBuilder<bool>(
+                              future: getFollow(context, id),
+                              builder: (context, snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.none:
+                                    return const Text(
+                                        'No tienes conección a internet.');
+                                  case ConnectionState.active:
+                                  case ConnectionState.waiting:
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: ElevatedButton.icon(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.grey),
+                                        icon: const Icon(Icons.bookmark),
+                                        label: const Text('Procesando'),
+                                      ),
+                                    );
+                                  case ConnectionState.done:
+                                    //TODO icon
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: ElevatedButton.icon(
+                                        onPressed: () {
+                                          setState(() {
+                                            setFollow(
+                                                context, id, snapshot.data!);
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: () {
+                                            if (snapshot.data!) {
+                                              return Colors.red;
+                                            } else {
+                                              return Colors.blue;
+                                            }
+                                          }(),
+                                        ),
+                                        icon: Icon(
+                                          () {
+                                            if (snapshot.data!) {
+                                              return Icons.bookmark;
+                                            } else {
+                                              return Icons.bookmark_add;
+                                            }
+                                          }(),
+                                        ),
+                                        label: () {
+                                          if (snapshot.data!) {
+                                            return const Text('Unfollow');
+                                          } else {
+                                            return const Text('Follow');
+                                          }
+                                        }(),
+                                      ),
+                                    );
+                                  default:
+                                    return const Text('default');
+                                }
+                              },
+                            ),
                           ],
                         ),
                         SizedBox(
                           height: 20,
-                          width: 250,
+                          width: double.infinity,
                           child: Divider(
                             color: Colors.blue[800],
                           ),
@@ -117,25 +174,28 @@ class _LessonDetailState extends State<LessonDetail> {
                             ),
                           ],
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Flexible(
+                                child: Text(
+                                  'Contenido',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
-                          width: 250,
+                          width: double.infinity,
                           child: Divider(
                             color: Colors.blue[800],
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Flexible(
-                              child: Text(
-                                'Contenido',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
@@ -247,6 +307,13 @@ class _LessonDetailState extends State<LessonDetail> {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: 20,
+                          width: double.infinity,
+                          child: Divider(
+                            color: Colors.blue[800],
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: FutureBuilder<List<Video>>(
@@ -281,7 +348,6 @@ class _LessonDetailState extends State<LessonDetail> {
                                                     .data![index].descripcion),
                                               ),
                                             ),
-                                            //TODO: VIDEOPLAYER
                                             YoutubePlayer(
                                               controller:
                                                   YoutubePlayerController(
@@ -420,4 +486,65 @@ Future<List<Video>> getVideo(context, id) async {
 
 String parseYT(String url) {
   return url.replaceAll('https://youtu.be/', '');
+}
+
+class Follow {
+  bool follow;
+
+  Follow({
+    required this.follow,
+  });
+
+  factory Follow.fromJson(Map<String, dynamic> json) {
+    if (json['follow']) {}
+    return Follow(
+      follow: json['follow'],
+    );
+  }
+}
+
+Future<bool> getFollow(context, id) async {
+  String accessCode = await getAccessTokenApi(context);
+
+  final response = await http.get(
+    Uri.parse('$port/followedLesson/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessCode',
+    },
+  );
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+
+    return jsonDecode(response.body);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load User');
+  }
+}
+
+Future<void> setFollow(context, id, follow) async {
+  String accessCode = await getAccessTokenApi(context);
+  final response = await http.post(
+    Uri.parse('$port/setFollowedLesson'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessCode',
+    },
+    body: jsonEncode(<String, String>{
+      'id': '$id',
+      'follow': '$follow',
+    }),
+  );
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    await getFollow(context, id);
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create user.');
+  }
 }
