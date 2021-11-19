@@ -1,4 +1,5 @@
 import 'package:educap_flutter/categories.dart';
+import 'package:educap_flutter/lesson_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -122,7 +123,7 @@ class CategoryLessonListState extends State<CategoryLessonList> {
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, CategoryLessonList.routeName,
+                                        context, LessonDetailView.routeName,
                                         arguments: CategoryArguments(
                                             snapshot.data![index].id));
                                   },

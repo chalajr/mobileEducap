@@ -30,10 +30,10 @@ class LessonsLayoutState extends State<LessonsLayout> {
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (settings) {
-        if (settings.name == 'LessonDetail') {
+        if (settings.name == 'LessonDetailView') {
           final args = settings.arguments as LessonArguments;
           return MaterialPageRoute(builder: (context) {
-            return LessonDetail(id: args.id);
+            return LessonDetailView(id: args.id);
           });
         } else if (settings.name == '/') {
           return MaterialPageRoute(builder: (context) {
@@ -144,7 +144,7 @@ class _LessonsState extends State<Lessons> {
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, LessonDetail.routeName,
+                                        context, LessonDetailView.routeName,
                                         arguments: LessonArguments(
                                             snapshot.data![index].id));
                                   },

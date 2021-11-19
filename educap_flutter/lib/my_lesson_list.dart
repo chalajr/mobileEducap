@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'lesson.dart';
 import 'token_refresh.dart';
 import 'lesson_detail_view.dart';
+import 'lesson_detail.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
 const port = 'http://10.0.2.2:8000/API';
@@ -114,7 +115,7 @@ class MyLessonsListState extends State<MyLessonListLayout> {
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, LessonDetail.routeName,
+                                        context, LessonDetailView.routeName,
                                         arguments: MyLessonArguments(
                                             snapshot.data![index].id));
                                   },

@@ -22,3 +22,8 @@ class LessonDetail {
         category: json['category']);
   }
 }
+
+class MyLessonArguments {
+  final int id;
+  MyLessonArguments(this.id);
+}
