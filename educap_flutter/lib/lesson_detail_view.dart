@@ -14,9 +14,10 @@ const imagePort = 'http://10.0.2.2:8000';
 
 const eduCapBlue = Color(0xff5c8ec8);
 
+String? url;
+
 class LessonDetail extends StatefulWidget {
   static const routeName = 'LessonDetail';
-
   final int id;
 
   const LessonDetail({
@@ -31,6 +32,11 @@ class LessonDetail extends StatefulWidget {
 
 class _LessonDetailState extends State<LessonDetail> {
   final int id;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   //Constructor
   _LessonDetailState(this.id);
@@ -275,6 +281,19 @@ class _LessonDetailState extends State<LessonDetail> {
                                                     .data![index].descripcion),
                                               ),
                                             ),
+                                            //TODO: VIDEOPLAYER
+                                            YoutubePlayer(
+                                              controller:
+                                                  YoutubePlayerController(
+                                                initialVideoId: parseYT(
+                                                    snapshot.data![index].link),
+                                                flags: const YoutubePlayerFlags(
+                                                  mute: false,
+                                                  autoPlay: false,
+                                                ),
+                                              ),
+                                              showVideoProgressIndicator: true,
+                                            ),
                                           ],
                                         ),
                                       );
@@ -397,4 +416,8 @@ Future<List<Video>> getVideo(context, id) async {
     // then throw an exception.
     throw Exception('Failed to load User');
   }
+}
+
+String parseYT(String url) {
+  return url.replaceAll('https://youtu.be/', '');
 }
