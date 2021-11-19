@@ -41,7 +41,7 @@ class _SubCategoriesState extends State<SubCategories> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
-            return const Text('No tienes coneccion a internet.');
+            return const Text('No tienes conexión a internet.');
           case ConnectionState.active:
           case ConnectionState.waiting:
             return Scaffold(

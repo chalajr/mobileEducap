@@ -1,24 +1,24 @@
 class LessonDetail {
   int id;
-  String nombre;
+  String titulo;
   String descripcion;
   String imagen;
-  int? categoriaPadre;
+  int category;
 
   LessonDetail({
     required this.id,
-    required this.nombre,
+    required this.titulo,
     required this.descripcion,
     required this.imagen,
-    this.categoriaPadre,
+    required this.category,
   });
 
   factory LessonDetail.fromJson(Map<String, dynamic> json) {
     return LessonDetail(
         id: json['id'],
-        nombre: json['nombre'],
+        titulo: json['titulo'],
         descripcion: json['descripcion'],
         imagen: json['imagen'],
-        categoriaPadre: json['categoriaPadre']);
+        category: json['category']);
   }
 }

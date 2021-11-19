@@ -3,11 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'category.dart';
-import 'lessons.dart';
 import 'sub_categories.dart';
-import 'lesson.dart';
 import 'token_refresh.dart';
-import 'lesson_detail_view.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
@@ -67,7 +64,7 @@ class _CategoriesState extends State<Categories> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
-            return const Text('No tienes coneccion a internet.');
+            return const Text('No tienes conexión a internet.');
           case ConnectionState.active:
           case ConnectionState.waiting:
             return Scaffold(
