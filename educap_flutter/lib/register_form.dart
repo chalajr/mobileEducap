@@ -254,7 +254,7 @@ Future<void> createUser(
   if (response.statusCode == 201) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    developer.log('${jsonDecode(response.body)}');
+
     var id = conversion(jsonDecode(response.body));
     createStudent(age, id, context);
   } else {
@@ -319,12 +319,12 @@ Future<http.Response> createStudent(
         );
       },
     );
-    developer.log('${jsonDecode(response.body)}');
+
     return response;
   } else {
     // If the server did not return a 201 CREATED response,
     // then throw an exception.
-    developer.log('Failed to create student.');
+
     throw Exception('Failed to create student.');
   }
 }

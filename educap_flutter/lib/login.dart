@@ -181,14 +181,14 @@ Future<void> login(
   if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    developer.log('${jsonDecode(response.body)}');
+
     // obtain shared preferences
     final prefs = await SharedPreferences.getInstance();
     // set value
     prefs.setBool('session', true);
     var refresh = conversion(jsonDecode(response.body));
     prefs.setString('refresh', refresh);
-    developer.log(refresh);
+
     Navigator.push(
       context,
       MaterialPageRoute(

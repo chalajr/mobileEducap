@@ -29,7 +29,7 @@ Future<String> getAccessTokenApi(context) async {
     }
 
     var acessCode = accessConversion(jsonDecode(access.body));
-    developer.log(acessCode);
+
     return acessCode;
   } else {
     // If the server did not return a 200 OK access,
