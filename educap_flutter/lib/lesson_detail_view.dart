@@ -145,9 +145,10 @@ class _LessonDetailState extends State<LessonDetailView> {
                                         ),
                                         label: () {
                                           if (snapshot.data!) {
-                                            return const Text('Unfollow');
+                                            return const Text(
+                                                'Dejar de seguir');
                                           } else {
-                                            return const Text('Follow');
+                                            return const Text('Seguir');
                                           }
                                         }(),
                                       ),
