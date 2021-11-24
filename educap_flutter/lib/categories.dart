@@ -142,8 +142,11 @@ class _CategoriesState extends State<Categories> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return snapshot.data![index].nombre
-                                .toLowerCase()
-                                .contains(searchString.toLowerCase())
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase()) ||
+                                snapshot.data![index].descripcion
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase())
                             ? Card(
                                 child: ListTile(
                                   leading: Image.network(
