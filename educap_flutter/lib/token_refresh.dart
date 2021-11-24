@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:educap_flutter/logout.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';

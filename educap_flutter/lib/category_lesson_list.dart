@@ -1,4 +1,3 @@
-import 'package:educap_flutter/categories.dart';
 import 'package:educap_flutter/lesson_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

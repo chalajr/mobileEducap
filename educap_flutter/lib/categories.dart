@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'category.dart';
 import 'sub_categories.dart';
 import 'token_refresh.dart';
-import 'lesson_detail.dart';
+
 import 'lesson_detail_view.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];

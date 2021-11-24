@@ -2,7 +2,6 @@ import 'package:educap_flutter/login.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
-import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';

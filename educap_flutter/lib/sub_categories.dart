@@ -125,7 +125,6 @@ class _SubCategoriesState extends State<SubCategories> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   onTap: () {
-                                    print(snapshot.data![index].id);
                                     Navigator.pushNamed(
                                         context, CategoryLessonList.routeName,
                                         arguments: CategoryArguments(
