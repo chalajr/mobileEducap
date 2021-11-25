@@ -6,8 +6,8 @@ import 'category.dart';
 import 'category_lesson_list.dart';
 import 'token_refresh.dart';
 
-const imagePort = 'http://10.0.2.2:8000';
-const port = 'http://10.0.2.2:8000/API';
+const imagePort = 'https://gentle-lowlands-24763.herokuapp.com';
+const port = 'https://gentle-lowlands-24763.herokuapp.com/API';
 
 const eduCapBlue = Color(0xff5c8ec8);
 

@@ -5,7 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const port = 'http://10.0.2.2:8000/API';
+const port = 'https://gentle-lowlands-24763.herokuapp.com/API';
 
 Future<String> getAccessTokenApi(context) async {
   final prefs = await SharedPreferences.getInstance();

@@ -13,8 +13,8 @@ final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
 
 const eduCapBlue = Color(0xff5c8ec8);
-const port = 'http://10.0.2.2:8000/API';
-const imagePort = 'http://10.0.2.2:8000';
+const port = 'https://gentle-lowlands-24763.herokuapp.com/API';
+const imagePort = 'https://gentle-lowlands-24763.herokuapp.com';
 
 class CategoriesLayout extends StatefulWidget {
   const CategoriesLayout({Key? key}) : super(key: key);

@@ -3,8 +3,8 @@ import 'app_layout.dart';
 import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const port = 'http://10.0.2.2:8000/API';
-const imagePort = 'http://10.0.2.2:8000';
+const port = 'https://gentle-lowlands-24763.herokuapp.com/API';
+const imagePort = 'https://gentle-lowlands-24763.herokuapp.com';
 
 void checkSession() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -9,8 +9,8 @@ import 'lesson_detail_view.dart';
 import 'lesson_detail.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
-const port = 'http://10.0.2.2:8000/API';
-const imagePort = 'http://10.0.2.2:8000';
+const port = 'https://gentle-lowlands-24763.herokuapp.com/API';
+const imagePort = 'https://gentle-lowlands-24763.herokuapp.com';
 
 class MyLessonListLayout extends StatefulWidget {
   static const routeName = 'MyLessonList';
