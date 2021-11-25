@@ -8,7 +8,6 @@ import 'token_refresh.dart';
 import 'lesson_detail_view.dart';
 import 'my_lesson_list.dart';
 import 'lesson_detail.dart';
-import 'lesson_detail_view.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
 const port = 'https://gentle-lowlands-24763.herokuapp.com/API';

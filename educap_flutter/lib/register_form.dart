@@ -2,7 +2,6 @@ import 'package:educap_flutter/login.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
-import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -158,9 +157,8 @@ class RegisterFormState extends State<RegisterForm> {
                       validator: Validators.compose([
                         Validators.required(
                             'Por favor introduzca una contraseña'),
-                        // Validators.patternString(
-                        //     r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                        //     'Contraseña Inválida')
+                        Validators.minLength(8,
+                            'Contraseña Inválida, debe de ser mayor o igual a 8 caracteres'),
                       ]),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -180,7 +178,7 @@ class RegisterFormState extends State<RegisterForm> {
                       keyboardType: TextInputType.visiblePassword,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por favor ingresa tu edad';
+                          return 'Las contraseñas deben de coincidir';
                         } else if (password2.text != password.text) {
                           return 'Las contraseñas deben de coincidir';
                         }

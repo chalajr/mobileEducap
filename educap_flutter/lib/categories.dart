@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'category.dart';
 import 'sub_categories.dart';
 import 'token_refresh.dart';
-import 'lesson_detail.dart';
+
 import 'lesson_detail_view.dart';
 
 final List<String> entries = <String>['A', 'B', 'C'];
@@ -142,8 +142,11 @@ class _CategoriesState extends State<Categories> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return snapshot.data![index].nombre
-                                .toLowerCase()
-                                .contains(searchString.toLowerCase())
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase()) ||
+                                snapshot.data![index].descripcion
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase())
                             ? Card(
                                 child: ListTile(
                                   leading: Image.network(

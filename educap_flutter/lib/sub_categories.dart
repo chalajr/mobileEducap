@@ -109,8 +109,11 @@ class _SubCategoriesState extends State<SubCategories> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return snapshot.data![index].nombre
-                                .toLowerCase()
-                                .contains(searchString.toLowerCase())
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase()) ||
+                                snapshot.data![index].descripcion
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase())
                             ? Card(
                                 child: ListTile(
                                   leading: Image.network(
@@ -122,7 +125,6 @@ class _SubCategoriesState extends State<SubCategories> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   onTap: () {
-                                    print(snapshot.data![index].id);
                                     Navigator.pushNamed(
                                         context, CategoryLessonList.routeName,
                                         arguments: CategoryArguments(

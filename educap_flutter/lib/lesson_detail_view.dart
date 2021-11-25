@@ -115,7 +115,6 @@ class _LessonDetailState extends State<LessonDetailView> {
                                       ),
                                     );
                                   case ConnectionState.done:
-                                    //TODO icon
                                     return Padding(
                                       padding: const EdgeInsets.only(left: 20),
                                       child: ElevatedButton.icon(

@@ -1,4 +1,3 @@
-import 'package:educap_flutter/my_account.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -101,8 +100,11 @@ class MyLessonsListState extends State<MyLessonListLayout> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return snapshot.data![index].titulo
-                                .toLowerCase()
-                                .contains(searchString.toLowerCase())
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase()) ||
+                                snapshot.data![index].descripcion
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase())
                             ? Card(
                                 child: ListTile(
                                   leading: Image.network(

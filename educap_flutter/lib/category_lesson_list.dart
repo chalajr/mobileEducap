@@ -1,4 +1,3 @@
-import 'package:educap_flutter/categories.dart';
 import 'package:educap_flutter/lesson_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -109,8 +108,11 @@ class CategoryLessonListState extends State<CategoryLessonList> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return snapshot.data![index].titulo
-                                .toLowerCase()
-                                .contains(searchString.toLowerCase())
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase()) ||
+                                snapshot.data![index].descripcion
+                                    .toLowerCase()
+                                    .contains(searchString.toLowerCase())
                             ? Card(
                                 child: ListTile(
                                   leading: Image.network(
