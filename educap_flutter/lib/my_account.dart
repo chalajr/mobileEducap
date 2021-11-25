@@ -275,8 +275,11 @@ Future<User> getStudent(context) async {
   if (response.statusCode == 200 && response2.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var student = Student.fromJson(jsonDecode(response2.body));
-    var user = User.fromJson(jsonDecode(response.body), student.age);
+    var student = Student.fromJson(
+        jsonDecode(const Utf8Decoder().convert(response2.bodyBytes)));
+    var user = User.fromJson(
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes)),
+        student.age);
 
     return user;
   } else {

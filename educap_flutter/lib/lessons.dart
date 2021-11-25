@@ -184,7 +184,8 @@ Future<List<Lesson>> getLesson(context) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var lessonsDecode = jsonDecode(response.body);
+    var lessonsDecode =
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
     List<Lesson> lessons = [];
     for (var lesson in lessonsDecode) {
       dynamic lessonToAdd;

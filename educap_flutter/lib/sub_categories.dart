@@ -163,7 +163,8 @@ Future<List<Category>> getSubCategory(context, id) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var categoriesDecode = jsonDecode(response.body);
+    var categoriesDecode =
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
     List<Category> categories = [];
     for (var category in categoriesDecode) {
       dynamic categoryToAdd;

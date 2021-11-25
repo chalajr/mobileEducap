@@ -397,7 +397,8 @@ Future<Lesson> getLesson(context, id) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var lesson = Lesson.fromJson(jsonDecode(response.body));
+    var lesson = Lesson.fromJson(
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes)));
 
     return lesson;
   } else {
@@ -419,7 +420,8 @@ Future<CategoryByName> getCategory(context, id) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var category = CategoryByName.fromJson(jsonDecode(response.body));
+    var category = CategoryByName.fromJson(
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes)));
     return category;
   } else {
     // If the server did not return a 200 OK response,
@@ -441,7 +443,8 @@ Future<List<Archivo>> getFile(context, id) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var categoriesDecode = jsonDecode(response.body);
+    var categoriesDecode =
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
     List<Archivo> categories = [];
     for (var file in categoriesDecode) {
       dynamic fileToAdd;
@@ -469,7 +472,8 @@ Future<List<Video>> getVideo(context, id) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    var categoriesDecode = jsonDecode(response.body);
+    var categoriesDecode =
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
     List<Video> categories = [];
     for (var video in categoriesDecode) {
       dynamic videoToAdd;
@@ -517,7 +521,7 @@ Future<bool> getFollow(context, id) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
 
-    return jsonDecode(response.body);
+    return jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

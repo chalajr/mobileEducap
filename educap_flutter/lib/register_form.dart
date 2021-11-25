@@ -253,7 +253,8 @@ Future<void> createUser(
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
 
-    var id = conversion(jsonDecode(response.body));
+    var id =
+        conversion(jsonDecode(const Utf8Decoder().convert(response.bodyBytes)));
     createStudent(age, id, context);
   } else {
     // If the server did not return a 201 CREATED response,

@@ -185,7 +185,8 @@ Future<void> login(
     final prefs = await SharedPreferences.getInstance();
     // set value
     prefs.setBool('session', true);
-    var refresh = conversion(jsonDecode(response.body));
+    var refresh =
+        conversion(jsonDecode(const Utf8Decoder().convert(response.bodyBytes)));
     prefs.setString('refresh', refresh);
 
     Navigator.push(
