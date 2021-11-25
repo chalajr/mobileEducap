@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 const eduCapBlue = Color(0xff5c8ec8);
 
@@ -15,12 +16,19 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        backgroundColor: eduCapBlue,
-      ),
-      title: "Login",
-      home: const LoginForm(),
-    );
+        theme: ThemeData(
+          backgroundColor: eduCapBlue,
+        ),
+        title: "Login",
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        home: const LoginForm(),
+        supportedLocales: const [
+          Locale('es', ''),
+        ]);
   }
 }
 
