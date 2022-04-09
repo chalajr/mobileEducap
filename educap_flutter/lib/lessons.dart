@@ -32,9 +32,11 @@ class LessonsLayoutState extends State<LessonsLayout> {
       onGenerateRoute: (settings) {
         if (settings.name == 'LessonDetailView') {
           final args = settings.arguments as LessonArguments;
-          return MaterialPageRoute(builder: (context) {
-            return LessonDetailView(id: args.id);
-          });
+          return MaterialPageRoute(
+            builder: (context) {
+              return LessonDetailView(id: args.id);
+            },
+          );
         } else if (settings.name == '/') {
           return MaterialPageRoute(builder: (context) {
             return const Lessons();
@@ -147,9 +149,12 @@ class _LessonsState extends State<Lessons> {
                                   ),
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, LessonDetailView.routeName,
-                                        arguments: LessonArguments(
-                                            snapshot.data![index].id));
+                                      context,
+                                      LessonDetailView.routeName,
+                                      arguments: LessonArguments(
+                                        snapshot.data![index].id,
+                                      ),
+                                    );
                                   },
                                   dense: false,
                                   trailing:
